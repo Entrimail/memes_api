@@ -11,8 +11,10 @@ router = APIRouter(prefix="/memes", tags=["Memes"])
 @router.get("/get-all-memes/", response_model=list[MemeBaseSchema])
 async def get_memes(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+    skip: int = 0,
+    limit: int = 0,
 ):
-    return await crud.get_memes(session=session)
+    return await crud.get_memes(session=session, skip=skip, limit=limit)
 
 
 @router.post(

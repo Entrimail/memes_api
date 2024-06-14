@@ -5,8 +5,8 @@ from sqlalchemy import select
 from .schemas import MemeBaseSchema, MemeCreateSchema, MemeUpdateSchema
 
 
-async def get_memes(session: AsyncSession) -> list[Meme]:
-    stmt = select(Meme).order_by(Meme.id)
+async def get_memes(session: AsyncSession, skip: int, limit: int) -> list[Meme]:
+    stmt = select(Meme).offset(skip).limit(limit).order_by(Meme.id)
     res: Result = await session.execute(stmt)
     memes = res.scalars()
     return list(memes)
